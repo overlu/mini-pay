@@ -1,0 +1,27 @@
+{
+    "name": "overlu/mini-pay",
+    "type": "package",
+    "description": "Mini Payment Package",
+    "keywords": [
+        "mini",
+        "pay",
+        "wechat pay",
+        "alipay",
+        "swoole"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.4",
+        "overlu/mini-framework": "~2.12.0",
+        "yansongda/pay": "~3.0.0"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "MiniPay\\": "src/"
+        }
+    }
+}
