@@ -8,21 +8,12 @@ declare(strict_types=1);
 namespace MiniPay;
 
 use Mini\Contracts\Container\BindingResolutionException;
-use Mini\Contracts\Support\DeferrableProvider;
 use Mini\Support\ServiceProvider;
-use ReflectionException;
-use Yansongda\Pay\Exception\ContainerDependencyException;
 use Yansongda\Pay\Exception\ContainerException;
-use Yansongda\Pay\Exception\ServiceNotFoundException;
 use Yansongda\Pay\Pay;
 
-class PayServiceProvider extends ServiceProvider implements DeferrableProvider
+class PayServiceProvider extends ServiceProvider
 {
-    /**
-     * Boot the service.
-     *
-     * @author yansongda <me@yansongda.cn>
-     */
     public function boot(): void
     {
         $this->publishes([
@@ -32,12 +23,8 @@ class PayServiceProvider extends ServiceProvider implements DeferrableProvider
     }
 
     /**
-     * Register the service.
-     * @throws ContainerException
-     * @throws ServiceNotFoundException
      * @throws BindingResolutionException
-     * @throws ReflectionException
-     * @throws ContainerDependencyException
+     * @throws ContainerException
      */
     public function register(): void
     {
@@ -52,15 +39,17 @@ class PayServiceProvider extends ServiceProvider implements DeferrableProvider
         $this->app->singleton('pay.wechat', function () {
             return Pay::wechat();
         });
+
+        $this->app->singleton('pay.unipay', function () {
+            return Pay::unipay();
+        });
     }
 
     /**
-     * Get services.
-     *
-     * @return array
+     * @return string[]
      */
     public function provides(): array
     {
-        return ['pay.alipay', 'pay.wechat'];
+        return ['pay.alipay', 'pay.wechat', 'pay.unipay'];
     }
 }

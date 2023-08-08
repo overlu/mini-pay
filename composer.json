@@ -7,12 +7,13 @@
         "pay",
         "wechat pay",
         "alipay",
+        "unipay",
         "swoole"
     ],
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "yansongda/pay": "~3.0.0"
+        "yansongda/pay": "~3.3.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest"
