@@ -5,14 +5,11 @@
  */
 declare(strict_types=1);
 
-namespace MiniPay\Service;
+namespace MiniPay\Provider;
 
 //use GuzzleHttp\Client;
 use Mini\Contracts\Container\BindingResolutionException;
 use Mini\Support\ServiceProvider;
-use MiniPay\Provider\Alipay;
-use MiniPay\Provider\Unipay;
-use MiniPay\Provider\WeChat;
 use ReflectionException;
 
 class PayServiceProvider extends ServiceProvider
