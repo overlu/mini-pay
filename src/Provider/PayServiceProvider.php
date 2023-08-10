@@ -17,8 +17,8 @@ class PayServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->publishes([
-            dirname(__DIR__) . '/config/pay.php' => config_path('pay.php'),],
-            'pay'
+            dirname(__DIR__) . '/../config/pay.php' => config_path('pay.php'),],
+            'config'
         );
     }
 
@@ -28,7 +28,7 @@ class PayServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->mergeConfigFrom(dirname(__DIR__) . '/config/pay.php', 'pay');
+        $this->mergeConfigFrom(dirname(__DIR__) . '/../config/pay.php', 'pay');
 
 //        $this->app->singleton('pay.http', function () {
 //            return new Client(config('pay.http', []));

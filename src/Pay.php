@@ -42,7 +42,7 @@ class Pay
      */
     public const MODE_SERVICE = 2;
 
-    public const PAY_CHANNEL = [
+    public static array $channel = [
         'alipay' => Alipay::class,
         'wechat' => WeChat::class,
         'unipay' => Unipay::class
@@ -65,6 +65,6 @@ class Pay
      */
     public static function __callStatic(string $service, array $config = [])
     {
-        return empty($config) ? app('pay.' . $service) : (new self::PAY_CHANNEL[$service]($config));
+        return empty($config) ? app('pay.' . $service) : (new self::$channel[$service]($config));
     }
 }
