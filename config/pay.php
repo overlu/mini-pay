@@ -5,7 +5,7 @@
  */
 declare(strict_types=1);
 
-use Yansongda\Pay\Pay;
+use MiniPay\Pay;
 
 return [
     'alipay' => [
@@ -70,7 +70,7 @@ return [
             'sub_mch_id' => env('WECHAT_SUB_MCH_ID', ''),
             // 选填-微信平台公钥证书路径, optional，强烈建议 php-fpm 模式下配置此参数
             'wechat_public_cert_path' => [
-//                '45F59D4DABF31918AFCEC556D5D2C6E376675D57' => __DIR__.'/Cert/wechatPublicKey.crt',
+//                '45F59D4DABF31918AFCEC556D5D2C6E376675D57' => __DIR__.'/cert/wechatPublicKey.crt',
             ],
             // 选填-默认为正常模式。可选为： MODE_NORMAL, MODE_SERVICE
             'mode' => env('WECHAT_MODE', Pay::MODE_NORMAL),
@@ -94,15 +94,11 @@ return [
     ],
     'http' => [ // optional
         'timeout' => 5.0,
-        'connect_timeout' => 5.0,
-        // 更多配置项请参考 [Guzzle](https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html)
+        // 更多配置项请参考 https://wiki.swoole.com/#/coroutine_client/http_client?id=set
     ],
-    // optional，默认 warning；日志路径为：sys_get_temp_dir().'/logs/yansongda.pay.log'
+    // optional，默认 warning
     'logger' => [
         'enable' => false,
-        'file' => runtime_path('logs/pay.log'),
-        'level' => 'debug',
-        'type' => 'daily', // optional, 可选 daily.
-        'max_file' => 30,
-    ],
+        'level' => 'debug'
+    ]
 ];

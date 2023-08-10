@@ -8,10 +8,14 @@ declare(strict_types=1);
 namespace MiniPay\Facades;
 
 use Mini\Facades\Facade;
-use Yansongda\Pay\Provider\Alipay;
-use Yansongda\Pay\Provider\Unipay;
-use Yansongda\Pay\Provider\Wechat;
+use MiniPay\Provider\Alipay;
+use MiniPay\Provider\Unipay;
+use MiniPay\Provider\WeChat;
 
+/**
+ * Class Pay
+ * @package MiniPay\Facades
+ */
 class Pay extends Facade
 {
     /**
@@ -35,9 +39,9 @@ class Pay extends Facade
 
     /**
      * Return the facade accessor.
-     * @return Wechat
+     * @return WeChat
      */
-    public static function wechat(): Wechat
+    public static function wechat(): WeChat
     {
         return app('pay.wechat');
     }

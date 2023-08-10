@@ -13,14 +13,24 @@
     "license": "MIT",
     "require": {
         "php": "^7.4",
-        "yansongda/pay": "~3.3.0"
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "ext-libxml": "*",
+        "ext-json": "*",
+        "ext-bcmath": "*",
+        "psr/http-message": "^1.1 || ^2.0",
+        "guzzlehttp/psr7": "^2.6"
     },
     "require-dev": {
+        "overlu/mini-framework": "~2.13.0",
         "roave/security-advisories": "dev-latest"
     },
     "autoload": {
         "psr-4": {
             "MiniPay\\": "src/"
-        }
+        },
+        "files": [
+            "src/functions.php"
+        ]
     }
 }

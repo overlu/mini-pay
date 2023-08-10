@@ -5,12 +5,15 @@
  */
 declare(strict_types=1);
 
-namespace MiniPay;
+namespace MiniPay\Service;
 
+//use GuzzleHttp\Client;
 use Mini\Contracts\Container\BindingResolutionException;
 use Mini\Support\ServiceProvider;
-use Yansongda\Pay\Exception\ContainerException;
-use Yansongda\Pay\Pay;
+use MiniPay\Provider\Alipay;
+use MiniPay\Provider\Unipay;
+use MiniPay\Provider\WeChat;
+use ReflectionException;
 
 class PayServiceProvider extends ServiceProvider
 {
@@ -24,24 +27,26 @@ class PayServiceProvider extends ServiceProvider
 
     /**
      * @throws BindingResolutionException
-     * @throws ContainerException
+     * @throws ReflectionException
      */
     public function register(): void
     {
         $this->mergeConfigFrom(dirname(__DIR__) . '/config/pay.php', 'pay');
 
-        Pay::config(config('pay'));
+//        $this->app->singleton('pay.http', function () {
+//            return new Client(config('pay.http', []));
+//        });
 
         $this->app->singleton('pay.alipay', function () {
-            return Pay::alipay();
+            return new Alipay();
         });
 
         $this->app->singleton('pay.wechat', function () {
-            return Pay::wechat();
+            return new WeChat();
         });
 
         $this->app->singleton('pay.unipay', function () {
-            return Pay::unipay();
+            return new Unipay();
         });
     }
 
