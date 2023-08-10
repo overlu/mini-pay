@@ -73,7 +73,7 @@ abstract class AbstractProvider implements ProviderInterface
         $this->verifyPlugin($plugins);
 
         /* @var Pipeline $pipeline */
-        $pipeline = app(Pipeline::class);
+        $pipeline = new Pipeline(app());
 
         /* @var Rocket $rocket */
         $rocket = $pipeline
