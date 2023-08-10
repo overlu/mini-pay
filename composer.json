@@ -19,7 +19,7 @@
         "ext-json": "*",
         "ext-bcmath": "*",
         "psr/http-message": "^1.1 || ^2.0",
-        "guzzlehttp/psr7": "^2.6"
+        "guzzlehttp/psr7": "^1.9 || ^2.6"
     },
     "require-dev": {
         "overlu/mini-framework": "~2.13.0",
