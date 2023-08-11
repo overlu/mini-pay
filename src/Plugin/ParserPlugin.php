@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace MiniPay\Plugin;
 
 use Closure;
+use Mini\Container\EntryNotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use MiniPay\Contract\DirectionInterface;
 use MiniPay\Contract\PackerInterface;
@@ -26,6 +27,7 @@ class ParserPlugin implements PluginInterface
      * @param Rocket $rocket
      * @param Closure $next
      * @return Rocket
+     * @throws EntryNotFoundException
      * @throws InvalidConfigException
      */
     public function assembly(Rocket $rocket, Closure $next): Rocket
@@ -63,10 +65,11 @@ class ParserPlugin implements PluginInterface
      * @param Rocket $rocket
      * @return PackerInterface
      * @throws InvalidConfigException
+     * @throws EntryNotFoundException
      */
     protected function getPacker(Rocket $rocket): PackerInterface
     {
-        $packer = app($rocket->getPacker());
+        $packer = app()->get($rocket->getPacker());
 
         $packer = is_string($packer) ? app($packer) : $packer;
 

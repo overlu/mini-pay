@@ -45,7 +45,7 @@ class Rocket implements JsonSerializableInterface, ArrayAccess
 
     private ?MessageInterface $destinationOrigin = null;
 
-    public function getRadar(): RequestInterface
+    public function getRadar(): ?RequestInterface
     {
         return $this->radar;
     }
@@ -76,7 +76,7 @@ class Rocket implements JsonSerializableInterface, ArrayAccess
         return $this;
     }
 
-    public function getPayload(): Collection
+    public function getPayload(): ?Collection
     {
         return $this->payload;
     }
@@ -124,7 +124,7 @@ class Rocket implements JsonSerializableInterface, ArrayAccess
     }
 
     /**
-     * @return Collection|MessageInterface
+     * @return null|Collection|MessageInterface
      */
     public function getDestination()
     {

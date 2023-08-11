@@ -10,6 +10,10 @@ namespace MiniPay\Provider;
 //use GuzzleHttp\Client;
 use Mini\Contracts\Container\BindingResolutionException;
 use Mini\Support\ServiceProvider;
+use MiniPay\Contract\DirectionInterface;
+use MiniPay\Contract\PackerInterface;
+use MiniPay\Direction\CollectionDirection;
+use MiniPay\Packer\JsonPacker;
 use ReflectionException;
 
 class PayServiceProvider extends ServiceProvider
@@ -33,6 +37,8 @@ class PayServiceProvider extends ServiceProvider
 //        $this->app->singleton('pay.http', function () {
 //            return new Client(config('pay.http', []));
 //        });
+        $this->app->singleton(DirectionInterface::class, CollectionDirection::class);
+        $this->app->singleton(PackerInterface::class, JsonPacker::class);
 
         $this->app->singleton('pay.alipay', function () {
             return new Alipay();

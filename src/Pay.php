@@ -8,15 +8,9 @@ declare(strict_types=1);
 namespace MiniPay;
 
 use Mini\Container\Container;
-use Mini\Contracts\Container\BindingResolutionException;
-use MiniPay\Contract\DirectionInterface;
-use MiniPay\Contract\PackerInterface;
-use MiniPay\Direction\CollectionDirection;
-use MiniPay\Packer\JsonPacker;
 use MiniPay\Provider\Alipay;
 use MiniPay\Provider\Unipay;
 use MiniPay\Provider\WeChat;
-use ReflectionException;
 
 /**
  * Class Pay
@@ -47,16 +41,6 @@ class Pay
         'wechat' => WeChat::class,
         'unipay' => Unipay::class
     ];
-
-    /**
-     * @throws BindingResolutionException
-     * @throws ReflectionException
-     */
-    private function __construct()
-    {
-        app()->singleton(DirectionInterface::class, CollectionDirection::class);
-        app()->singleton(PackerInterface::class, JsonPacker::class);
-    }
 
     /**
      * @param string $service

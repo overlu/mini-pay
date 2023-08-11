@@ -52,6 +52,6 @@ class Logger
         }
         $arguments[1] = $arguments[1] ?? [];
         $arguments[2] = 'pay';
-        \Mini\Facades\Logger::log(...$arguments);
+        \Mini\Facades\Logger::$name(...$arguments);
     }
 }
