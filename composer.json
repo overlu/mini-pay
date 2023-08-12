@@ -23,7 +23,8 @@
     },
     "require-dev": {
         "overlu/mini-framework": "~2.13.0",
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "guzzlehttp/guzzle": "~6.0 || ^7.0"
     },
     "autoload": {
         "psr-4": {

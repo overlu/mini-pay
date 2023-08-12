@@ -11,6 +11,8 @@ use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
 use Mini\Support\Collection;
 use Mini\Support\Pipeline;
+use MiniPay\Contract\HttpClientInterface;
+use MiniPay\Exception\InvalidConfigException;
 use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\RequestInterface;
 use Swoole\Coroutine\Http\Client;
@@ -25,6 +27,7 @@ use MiniPay\Exception\InvalidParamsException;
 use MiniPay\Exception\InvalidResponseException;
 use MiniPay\Logger;
 use MiniPay\Rocket;
+use Psr\Http\Client\ClientInterface;
 
 use function MiniPay\should_do_http_request;
 
@@ -72,11 +75,8 @@ abstract class AbstractProvider implements ProviderInterface
 
         $this->verifyPlugin($plugins);
 
-        /* @var Pipeline $pipeline */
-        $pipeline = new Pipeline(app());
-
         /* @var Rocket $rocket */
-        $rocket = $pipeline
+        $rocket = (new Pipeline(app()))
             ->send((new Rocket())->setParams($params)->setPayload(new Collection()))
             ->through($plugins)
             ->via('assembly')
@@ -109,8 +109,17 @@ abstract class AbstractProvider implements ProviderInterface
         Event::dispatch(new Event\ApiRequesting($rocket));
 
         try {
-            $response = $this->sendRequest($rocket->getRadar());
-
+            if (($app = app()) && $app->has(HttpClientInterface::class) && $client = $app->get(HttpClientInterface::class)) {
+                if ($client instanceof ClientInterface) {
+                    $response = $client->sendRequest($rocket->getRadar());
+                } elseif ($client instanceof \GuzzleHttp\ClientInterface) {
+                    $response = $client->send($rocket->getRadar());
+                } else {
+                    throw new InvalidConfigException(Exception::HTTP_CLIENT_CONFIG_ERROR);
+                }
+            } else {
+                $response = $this->sendRequest($rocket->getRadar());
+            }
             $body = Utils::streamFor($response->getBody());
 
             $rocket->setDestination($response->withBody($body))
@@ -131,18 +140,25 @@ abstract class AbstractProvider implements ProviderInterface
     protected function sendRequest(RequestInterface $request): Response
     {
         $uri = $request->getUri();
-        $client = new Client($uri->getHost(), $uri->getPort(), strtolower($uri->getScheme()) === 'https');
+        $isSSL = strtolower($uri->getScheme()) === 'https';
+        $client = new Client($uri->getHost(), $isSSL ? 443 : 80, $isSSL);
         $httpConfig = config('pay.http');
         if (!empty($httpConfig) && is_array($httpConfig)) {
             $client->set($httpConfig);
         }
-        $body = (string)$request->getBody();
-        if ($body) {
-            $client->setData($body);
+        if ($request->getBody()->getSize()) {
+            $client->setData((string)$request->getBody());
         }
-        $headers = $request->getHeaders();
+        $headers = [];
+        foreach ($request->getHeaders() as $key => $val) {
+            $headers[$key] = implode(',', $val);
+        }
         if (!empty($headers)) {
             $client->setHeaders($headers);
+        }
+
+        if ($request->getBody()->getSize()) {
+            $client->setData((string)$request->getBody());
         }
         $client->setMethod($request->getMethod());
         $client->execute($uri->getPath());
@@ -150,7 +166,6 @@ abstract class AbstractProvider implements ProviderInterface
         $responseStatusCode = (int)$client->getStatusCode();
         $responseHeaders = (array)$client->getHeaders();
         $client->close();
-
         return new Response($responseStatusCode, $responseHeaders, $responseBody);
     }
 

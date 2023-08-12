@@ -50,7 +50,7 @@ class Rocket implements JsonSerializableInterface, ArrayAccess
         return $this->radar;
     }
 
-    public function setRadar(RequestInterface $radar): Rocket
+    public function setRadar(?RequestInterface $radar): Rocket
     {
         $this->radar = $radar;
 
@@ -81,7 +81,7 @@ class Rocket implements JsonSerializableInterface, ArrayAccess
         return $this->payload;
     }
 
-    public function setPayload(Collection $payload): Rocket
+    public function setPayload(?Collection $payload): Rocket
     {
         $this->payload = $payload;
 

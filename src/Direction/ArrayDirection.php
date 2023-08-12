@@ -27,9 +27,7 @@ class ArrayDirection implements DirectionInterface
         if (is_null($response)) {
             throw new InvalidResponseException(Exception::RESPONSE_NONE);
         }
-
-        $body = (string) $response->getBody();
-
+        $body = (string)$response->getBody();
         if (!is_null($result = $packer->unpack($body))) {
             return $result;
         }
