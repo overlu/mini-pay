@@ -50,7 +50,14 @@ class Logger
         if (self::RFC_5424_LEVELS[$name] > self::RFC_5424_LEVELS[$level]) {
             return;
         }
-        $arguments[1] = $arguments[1] ?? [];
+        if (!empty($arguments[1])) {
+            if (!empty($arguments[1]['rocket'])) {
+                $arguments[1]['rocket'] = $arguments[1]['rocket']->toArray();
+            }
+        } else {
+            $arguments[1] = [];
+        }
+
         $arguments[2] = 'pay';
         \Mini\Facades\Logger::$name(...$arguments);
     }
