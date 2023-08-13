@@ -51,7 +51,7 @@ class Logger
             return;
         }
         if (!empty($arguments[1])) {
-            if (!empty($arguments[1]['rocket'])) {
+            if (!empty($arguments[1]['rocket']) && $arguments[1]['rocket'] instanceof Rocket) {
                 $arguments[1]['rocket'] = $arguments[1]['rocket']->toArray();
             }
         } else {
