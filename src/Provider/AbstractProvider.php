@@ -164,7 +164,11 @@ abstract class AbstractProvider implements ProviderInterface
             $client->setData((string)$request->getBody());
         }
         $client->setMethod($request->getMethod());
-        $client->execute($uri->getPath());
+        $query = '';
+        if ($uri->getQuery()) {
+            $query = '?' . $uri->getQuery();
+        }
+        $client->execute($uri->getPath() . $query);
         $responseBody = $client->getBody() ?: null;
         $responseStatusCode = (int)$client->getStatusCode();
         $responseHeaders = (array)$client->getHeaders();
