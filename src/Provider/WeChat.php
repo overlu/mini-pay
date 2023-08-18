@@ -9,6 +9,7 @@ namespace MiniPay\Provider;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use Mini\Facades\Request;
 use Mini\Support\Collection;
 use Mini\Support\Str;
 use Psr\Http\Message\MessageInterface;
@@ -166,6 +167,6 @@ class WeChat extends AbstractProvider
             return $contents;
         }
 
-        return ServerRequest::fromGlobals();
+        return request();
     }
 }

@@ -9,6 +9,7 @@ namespace MiniPay\Provider;
 
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\ServerRequest;
+use Mini\Facades\Request;
 use Mini\Support\Collection;
 use Mini\Support\Str;
 use Psr\Http\Message\MessageInterface;
@@ -153,8 +154,6 @@ class Unipay extends AbstractProvider
             return Collection::wrap($contents->getParsedBody());
         }
 
-        $request = ServerRequest::fromGlobals();
-
-        return Collection::wrap($request->getParsedBody());
+        return Collection::wrap(Request::getParsedBody());
     }
 }
