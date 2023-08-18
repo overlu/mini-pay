@@ -8,7 +8,6 @@ declare(strict_types=1);
 namespace MiniPay\Provider;
 
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\ServerRequest;
 use Mini\Facades\Request;
 use Mini\Support\Collection;
 use Mini\Support\Str;
